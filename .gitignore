@@ -1,0 +1,11 @@
+exp_local/
+*.ipynb_checkpoints*
+*.png
+
+*__pycache__/
+*.pyc
+*.npy
+*/.DS_Store
+demonstrations/tabletop_3obj/*
+figures/
+*.png
