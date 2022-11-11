@@ -1,15 +1,13 @@
 import numpy as np
 from gym import utils
-# from gym.envs.mujoco import mujoco_env
 from . import mujoco_env
 from PIL import Image
 
 # Cheetah that starts upright, has short torso, and has hurdles
 class HalfCheetahEnvShortHurdle(mujoco_env.MujocoEnv, utils.EzPickle):
     def __init__(self):
-        print("INIT SHORT HURDLE HALF CHEETAH")
         self.hurdles_xpos=[7., 30., 40., 60., 85., 135., 160., 180., 220., 260.]
-        mujoco_env.MujocoEnv.__init__(self, "half_cheetah_short_hurdle.xml", 5)
+        mujoco_env.MujocoEnv.__init__(self, "half_cheetah_short_hurdles.xml", 5)
         utils.EzPickle.__init__(self)
         
     def step(self, action):
@@ -29,11 +27,7 @@ class HalfCheetahEnvShortHurdle(mujoco_env.MujocoEnv, utils.EzPickle):
         return next_obs, reward, done, info
     
     def compute_reward(self, obs):
-        if self._reward_type == "sparse":
-            reward = float(self.is_successful(obs=obs))
-        elif self._reward_type == "dense":
-          # remove gripper, attached object from reward computation
-           reward = float(self.is_successful(obs=obs))
+        reward = float(self.is_successful(obs=obs))
         return reward
 
     def get_current_obs(self):
@@ -50,7 +44,6 @@ class HalfCheetahEnvShortHurdle(mujoco_env.MujocoEnv, utils.EzPickle):
         )
 
     def reset_model(self):
-        print("Resetting the no-reset environment")
         qpos = self.init_qpos + self.np_random.uniform(
             low=-0.1, high=0.1, size=self.model.nq
         )

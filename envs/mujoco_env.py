@@ -172,7 +172,6 @@ class MujocoEnv(gym.Env):
 
     def close(self):
         if self.viewer is not None:
-            # self.viewer.finish()
             self.viewer = None
             self._viewers = {}
 

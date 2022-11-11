@@ -1,6 +1,5 @@
 import numpy as np
 from gym import utils
-# from gym.envs.mujoco import mujoco_env
 from . import mujoco_env
 from PIL import Image
 
@@ -8,7 +7,6 @@ from PIL import Image
 # Has resets every self.max_steps steps
 class HalfCheetahEnvShort(mujoco_env.MujocoEnv, utils.EzPickle):
     def __init__(self):
-        print("INIT SHORT HALF CHEETAH")
         self.max_steps = 500
         self.cur_steps = 0
         mujoco_env.MujocoEnv.__init__(self, "half_cheetah_short.xml", 5)

@@ -1,0 +1,70 @@
+# task settings
+num_pretraining_steps: 0
+online_steps: 200000
+env_name: tabletop_manipulation
+frame_stack: 1
+action_repeat: 1
+oracle_reset: 1
+discount: 0.99
+# train settings
+num_init_frames: 1000
+# eval
+eval_every_frames: 10000
+num_eval_episodes: 10
+# snapshot
+save_snapshot: true
+# replay buffer
+replay_buffer_size: 5000000
+prior_buffer_size: 50000
+replay_buffer_num_workers: 4
+nstep: 1
+batch_size: 256
+# misc
+seed: 0
+device: cuda
+save_train_video: false
+use_tb: true
+# agent
+lr: 3e-4
+feature_dim: ??? # not specified because running from state
+use_discrim: false
+discrim_type: state
+num_discrims: 1
+mixup: true
+time_step: 1 
+resets: false
+biased_update: 100
+rl_pretraining: false
+save_buffer: false
+q_weights: false
+use_demos: false # for rl pretraining: if use demos instead of buffer
+baseline: 0 # use val of latest obs
+alpha: 1 
+
+agent:
+  _target_: agents.SACAgent
+  obs_shape: ??? # to be specified later
+  action_shape: ??? # to be specified later
+  device: ${device}
+  lr: ${lr}
+  critic_target_tau: 0.005
+  reward_scale_factor: 10.0
+  use_tb: ${use_tb}
+  hidden_dim: 256
+  feature_dim: ${feature_dim}
+  from_vision: false
+  # hidden size of the discriminator
+  discrim_hidden_size: 128
+  
+discriminator:
+  train_interval: 1
+  train_steps_per_iteration: 1 
+  # replay buffer
+  batch_size: 512 # try smaller batch size 800
+  positive_buffer_size: 100000
+  negative_buffer_size: 5000000
+  
+hydra:
+  output_subdir: hydra
+  run:
+    dir: ./exp_local/${env_name}/${now:%Y.%m.%d}/discrim${use_discrim}_qwt${q_weights}_seed${seed}

@@ -1,3 +1,4 @@
+script*
 exp_local/
 *.ipynb_checkpoints*
 *.png
